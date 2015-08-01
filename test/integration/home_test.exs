@@ -1,4 +1,4 @@
-defmodule HomeIntegrationTest do
+defmodule HomeTest do
   use ExUnit.Case
 
   alias Hola.Support.ApiCall

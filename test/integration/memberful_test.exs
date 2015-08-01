@@ -1,4 +1,4 @@
-defmodule AddIntegrationTest do
+defmodule MemberfulTest do
   use ExUnit.Case
 
   alias Hola.Support.ApiCall
@@ -9,17 +9,19 @@ defmodule AddIntegrationTest do
     Hola.Support.Helpers.launch_api
   end
 
-  test "POST to /add with wrong event returns 422" do
+  test "POST with unsupported event returns 200 with error message" do
     payload = ~s({
       "event": "member_canceled"
     }) |> Poison.decode!
 
-    response = ApiCall.post! "/add", payload
+    response = ApiCall.post! "/memberful", payload
 
-    assert response.status_code == 422
+    assert response.status_code == 200
+    assert response.body.message == "Unsupported Event"
+    assert !response.body.ok
   end
 
-  test "POST to /add with no email returns 422" do
+  test "POST to /memberful with no email returns 200 with ok false" do
     payload = ~s({
       "event": "member_signup",
       "member": {
@@ -28,12 +30,13 @@ defmodule AddIntegrationTest do
       }
     }) |> Poison.decode!
 
-    response = ApiCall.post! "/add", payload
+    response = ApiCall.post! "/memberful", payload
 
-    assert response.status_code == 422
+    assert response.status_code == 200
+    assert !response.body.ok
   end
 
-  test "POST to /add with correct event and email returns 200" do
+  test "POST with correct event and email returns 200 with ok true" do
     payload = ~s({
       "event": "member_signup",
       "member": {
@@ -49,8 +52,9 @@ defmodule AddIntegrationTest do
       }
     }) |> Poison.decode!
 
-    response = ApiCall.post! "/add", payload
+    response = ApiCall.post! "/memberful", payload
 
     assert response.status_code == 200
+    assert response.body.ok
   end
 end

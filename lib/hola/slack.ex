@@ -20,7 +20,7 @@ defmodule Hola.Slack do
   def invite(email) do
     token = System.get_env("SLACK_API_TOKEN")
     form = ~s(email=#{email}&token=#{token}&set_active=true)
-    response = post "/users.admin.invite", form
-    elem(response, 1).body.ok
+    {_, response} = post "/users.admin.invite", form
+    response.body
   end
 end
