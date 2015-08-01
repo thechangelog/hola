@@ -8,6 +8,7 @@ defmodule Hola.Router do
   scope "/", Hola do
     pipe_through :api
 
+    get "/", MemberController, :home
     post "/add", MemberController, :add
   end
 end

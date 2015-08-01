@@ -18,4 +18,8 @@ defmodule Hola.MemberController do
     |> put_status(status)
     |> json %{ok: ok}
   end
+
+  def home(conn, _params) do
+    redirect conn, external: "https://changelog.com"
+  end
 end

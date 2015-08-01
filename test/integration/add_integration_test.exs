@@ -1,7 +1,6 @@
 defmodule AddIntegrationTest do
   use ExUnit.Case
 
-  # alias for convenience
   alias Hola.Support.ApiCall
 
   # use the setup_all hook to make sure the API is
