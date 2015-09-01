@@ -4,6 +4,12 @@ defmodule Hola.Endpoint do
   plug Plug.RequestId
   plug Plug.Logger
 
+  plug :force_json_content_type
+
+  defp force_json_content_type(conn, _) do
+    Plug.Conn.put_req_header(conn, "content-type", "application/json")
+  end
+
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
